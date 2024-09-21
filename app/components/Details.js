@@ -9,23 +9,65 @@ import Size from './Size';
 function Details({product}) {
   const [selectedImage, setSelectedImage] = useState(product?.image);
   const [selectedColor, setSelectedColor] = useState(product?.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   const cart = useCartStore((state) => state.cart);
   const addToCart = useCartStore((state) => state.addToCart);
   const[qty,setQty] = useState(1);
 
+  
+
   const handleAddToCart = () => {
-    addToCart({ product, quantity: qty,color:selectedColor });
+
+    if(!selectedColor) {
+      toast.error('Please select a color.');
+      return;
+    }
+    if (qty <= 0) {
+      toast.error('Quantity should be greater than 0.');
+      return;
+    }
+    if (!selectedSize) {
+      toast.error('Please select a size.');
+      return;
+    }
+
+
+    addToCart({"product": {
+      "size":product.size,
+      "_id": product._id,
+      "price": product.price,
+      "image": product.image,
+      "slug": product.slug,
+      "extraImages": product.extraImages,
+      "colors": product.colors,
+      "createdAt": product.createdAt,
+      "name": product.name,
+      "description": product.description,
+      "quantity": qty,
+      "color": product.color,
+      "selectedColor":selectedColor,
+      "selectedSize":selectedSize
+  }}
+      
+);
+    // addToCart({ 
+    //   product, 
+    //   // quantity: qty,
+    //   // color:selectedColor,
+    //   // selectedSize:"Vik"
+    //  });
+     
     toast.success('Added to cart');
   };
 
   return (
-    <div className='max-w-7xl mx-auto mt-20'>
+    <div className='mx-auto mt-20 max-w-7xl'>
       <div className='grid grid-cols-1 lg:grid-cols-2'>
 
         {/* Left - Main Image */}
         <div>
-        <div className="shadow-md relative h-96 overflow-hidden aspect-ratio-1">
+        <div className="relative overflow-hidden shadow-md h-96 aspect-ratio-1">
           <img
             src={selectedImage}
             layout="fill"
@@ -64,9 +106,9 @@ function Details({product}) {
         
 
         {/* Right - Details */}
-        <div className="flex flex-col p-6 justify-between">
+        <div className="flex flex-col justify-between p-6">
           <h1 className="text-3xl font-semibold text-[#5B20B6]">{product?.name}</h1>
-          <p className="text-lg text-gray-500 mt-4">{product?.description}</p>
+          <p className="mt-4 text-lg text-gray-500">{product?.description}</p>
 
           
 
@@ -85,8 +127,9 @@ function Details({product}) {
               }
             })}
           </div>
-          <Size/>
-          
+
+          <Size onSizeSelect={setSelectedSize} />
+
           <div className="mt-5">
             {/* Additional details can be added here */}
             <span className="text-[#5B20B6] text-xl font-semibold">${product?.price}</span>
@@ -94,7 +137,7 @@ function Details({product}) {
            
           </div>
 
-          <div className="mt-6 flex flex-col text-gray-500">
+          <div className="flex flex-col mt-6 text-gray-500">
             <label className="ml-2" htmlFor="">
               Qty
             </label>
@@ -102,7 +145,7 @@ function Details({product}) {
               type="number"
               value={qty}
               onChange={(e)=>setQty(e.target.value)}
-              className="w-20 px-4 h-10 border border-gray-300 rounded-md"
+              className="w-20 h-10 px-4 border border-gray-300 rounded-md"
             />
           </div>
 
