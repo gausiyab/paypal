@@ -8,7 +8,7 @@ const useCartStore = create((set) => ({
   addToCart: ({ product, quantity,color }) =>
     set((state) => {
       const existingProductIndex = state.cart.findIndex((item) => item._id === product._id);
-      const newQuantity = parseInt(quantity, 10);
+      const newQuantity = parseInt(product.quantity, 10);
 
       if (newQuantity <= 0) {
         // If the new quantity is less than or equal to zero, remove the item from the cart
