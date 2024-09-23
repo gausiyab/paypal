@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
-function Size({ onSizeSelect }) {
+function Size({ onSizeSelect, size }) {
   const [selectedSize, setSelectedSize] = useState(null); // State to track selected size
 
   // Array of sizes to map through
-  const sizes = ["S", "M", "L", "XL", "XXL"];
+  const sizes = size;
 
+
+  
   // Function to handle size selection
   const handleSizeClick = (size) => {
     setSelectedSize(size); 
@@ -21,11 +23,11 @@ function Size({ onSizeSelect }) {
             <button
               key={size}
               className={`bg-white text-center py-1.5 px-6 w-full font-semibold text-lg leading-8 text-gray-900 border border-gray-200 flex items-center rounded-full justify-center transition-all duration-300 hover:bg-gray-50 hover:shadow-sm hover:shadow-gray-100 hover:border-gray-300 visited:border-gray-300 visited:bg-gray-50 ${
-                selectedSize === size ? "bg-green-500" : ""
+                selectedSize === size ? "bg-red-500" : ""
               }`}
               onClick={() => handleSizeClick(size)}
             >
-              {size}
+             {size}
             </button>
           ))}
         </div>

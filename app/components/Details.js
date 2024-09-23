@@ -15,6 +15,7 @@ function Details({product}) {
   const addToCart = useCartStore((state) => state.addToCart);
   const[qty,setQty] = useState(1);
 
+  console.log(product.colors);
   
 
   const handleAddToCart = () => {
@@ -113,7 +114,7 @@ function Details({product}) {
           
 
           {/* Color Selection Circles */}
-          <div className="flex mt-6 space-x-3">
+          {/* <div className="flex mt-6 space-x-3">
             {product?.colors?.map((color) => {
               switch (color) {
                 case 'Grey':
@@ -126,13 +127,27 @@ function Details({product}) {
                   return <div onClick={()=>{setSelectedColor(color)}} key={color} className={`${color == selectedColor ? "border-4 border-[#5b20b6]":""} w-8 h-8 rounded-full bg-gray-300 cursor-pointer hover:border-4 border-[#5b20b6]`}></div>;
               }
             })}
-          </div>
+          </div> */}
 
-          <Size onSizeSelect={setSelectedSize} />
+          <div className="flex mt-6 space-x-3">
+          {product?.colors?.map((color) => (
+        <button
+          key={color}
+          onClick={() => setSelectedColor(color)}
+          style={{ backgroundColor: color }} // Set background color dynamically
+          className={`w-8 h-8 rounded-full cursor-pointer
+                      ${color === selectedColor ? "border-4 border-[#5b20b6]" : ""}
+                      ${color === selectedColor ? "" : "hover:bg-gray-300 hover:border-4 border-[#5b20b6]"}
+                      `}
+        />
+      ))}
+    </div>
+
+          <Size onSizeSelect={setSelectedSize} size={product.size} />
 
           <div className="mt-5">
             {/* Additional details can be added here */}
-            <span className="text-[#5B20B6] text-xl font-semibold">${product?.price}</span>
+            <span className="text-3xl font-semibold text-white">${product?.price}</span>
 
            
           </div>

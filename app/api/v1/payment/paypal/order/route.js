@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 paypal.configure({
     'mode': 'sandbox', // sandbox or live
-    'client_id': 'AZUzISgiW8CGEUsZjSlqZjydvWF43oLz1Lc-eNBVA1wNroi7R-c3QbiUeANSKHg1oGtQS2cmu61AwMjD',
-    'client_secret': 'EDnD5Cz8FIkJ2Uides9d-km745mfPPCnmucClmrq80Y1LRrs4hNJLHPGUZCLp_9R2lDNQ81T2iY5jH4t'
+    'client_id': '',
+    'client_secret': ''
 });
 
 export async function POST(req) {

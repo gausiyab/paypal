@@ -5,6 +5,7 @@ import { FaTrash } from 'react-icons/fa';
 import useCartStore from '../../cartStore';
 import Link from 'next/link';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 function Cart() {
   const cart = useCartStore((state) => state.cart);
@@ -14,6 +15,8 @@ function Cart() {
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false); // State to manage payment processing
 
+  console.log("cart",cart);
+  
   const handleRemoveFromCart = (productId) => {
     removeFromCart(productId);
   };
@@ -26,6 +29,10 @@ function Cart() {
 
   const handlePayment = async (e) => {
     e.preventDefault();
+    if(cartTotal<1){
+      toast.error('Please add items to the cart to proceed.');
+      return;
+    }
 
     setIsProcessingPayment(true); // Set loading state to true
 
@@ -69,6 +76,8 @@ function Cart() {
                 {product?.name}
               </td>
               <td className='px-4 py-2'>{product?.quantity}</td>
+              <td className='px-4 py-2'>{product?.selectedColor}</td>
+              <td className='px-4 py-2'>{product?.selectedSize}</td>
               <td className='px-4 py-2'>${product?.price}</td>
               <td className='px-4 py-2'>
                 <FaTrash onClick={() => handleRemoveFromCart(product?._id)} className='text-[#5B20B6] mx-auto cursor-pointer' />
@@ -92,7 +101,20 @@ function Cart() {
           </button>
         </div>
 
-        <div className='mt-6 text-[#5B20B6] max-w-sm mx-auto space-y-4'>
+        <button 
+         onClick={handlePayment}
+         disabled={isProcessingPayment}
+        className='mt-6'>
+          <img
+          
+          src='https://lavendercottagecattery.co.uk/wp-content/uploads/2022/10/CITYPNG.COMDownload-PayPal-Yellow-Payment-Button-PNG-2100x770-2.png'
+         className='h-24'
+         >
+          </img>
+        </button>
+
+        {/* <div className='mt-6 text-[#5B20B6] max-w-sm mx-auto space-y-4'>
+
           <button
             onClick={handlePayment}
             disabled={isProcessingPayment} // Disable button when processing payment
@@ -102,7 +124,7 @@ function Cart() {
           >
             {isProcessingPayment ? 'Processing...' : 'Pay Now'}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
