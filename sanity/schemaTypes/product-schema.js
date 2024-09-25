@@ -61,6 +61,16 @@ const product = {
           },
         ],
       },
+        {
+        name: 'category',
+        title: 'Product Category',
+        type: 'reference',
+        to: [
+          {
+            type: 'category',
+          },
+        ],
+      },
       {
         name: "description",
         title: "Description",
